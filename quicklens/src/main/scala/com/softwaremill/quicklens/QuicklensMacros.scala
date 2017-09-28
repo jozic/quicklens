@@ -139,6 +139,15 @@ object QuicklensMacros {
       if (subclasses.isEmpty) DirectPathAccess else SealedPathAccess(subclasses)
     }
 
+    def debug(message: String): Unit = {
+      println(
+        s"""
+           |
+           |$message
+           |
+          """.stripMargin)
+    }
+
     /**
      * _.a.b.each.c => List(TPE(a), TPE(b), FPE(functor, each/at/eachWhere, xargs), TPE(c))
      */
@@ -148,8 +157,11 @@ object QuicklensMacros {
         Seq("at", "eachWhere").exists { _.equals(method.toString) }
       }
       def typeSupported(quicklensType: c.Tree) = {
-        Seq("QuicklensEach", "QuicklensAt", "QuicklensMapAt", "QuicklensWhen").exists { quicklensType.toString.endsWith }
+        Seq("QuicklensEach", "QuicklensAt", "QuicklensMapAt",
+          "QuicklensWhen", "QuicklensEitherLeft", "QuicklensEitherRight")
+          .exists { quicklensType.toString.endsWith }
       }
+
       tree match {
         case q"$parent.$child" =>
           val access = determinePathAccess(parent.tpe.typeSymbol)
