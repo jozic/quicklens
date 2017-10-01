@@ -39,7 +39,10 @@ val buildSettings = Defaults.coreDefaultSettings ++ Seq(
   releaseCrossBuild := true,
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   releaseIgnoreUntrackedFiles := true,
-  releaseProcess := QuicklensRelease.steps
+  releaseProcess := QuicklensRelease.steps,
+  tutSourceDirectory := file(".") / "docs",
+  tutTargetDirectory := file("."),
+  fork in tut := true
 )
 
 lazy val root =
@@ -49,6 +52,7 @@ lazy val root =
 
 lazy val quicklens =
   (crossProject.crossType(CrossType.Pure) in file("quicklens"))
+    .enablePlugins(TutPlugin)
     .settings(buildSettings ++ Seq(
       name := "quicklens",
       libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value)))

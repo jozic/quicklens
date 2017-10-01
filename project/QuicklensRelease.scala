@@ -17,6 +17,7 @@ object QuicklensRelease {
     runTest,
     setReleaseVersion,
     updateVersionInReadme,
+    releaseStepCommand("tut"),
     commitReleaseVersion,
     tagRelease,
     publishArtifacts,
@@ -28,7 +29,7 @@ object QuicklensRelease {
 
   // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
   private def updateVersionInReadme: ReleaseStep = { s: State =>
-    val readmeFile = file("README.md")
+    val readmeFile = file("docs/README.md")
     val readme = IO.read(readmeFile)
 
     val currentVersionPattern = """"com.softwaremill.quicklens" %% "quicklens" % "([\w\.-]+)"""".r
